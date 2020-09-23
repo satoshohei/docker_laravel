@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
+//ファイル操作に必要
+use Illuminate\Support\Facades\Storage;
+
 class PostController extends Controller
 {
     /**
@@ -44,18 +47,30 @@ class PostController extends Controller
             'title' => 'required',
             'description' => 'required',
             //'image_url' => 'required|max:10240|mimes:jpg,jpeg,gif,png',
-            'image_url' => 'required',
+            'image_file' => 'required',
         ]);
 
 
         //全て保存する。
         //画像の保存により単純な保存でなくなったので下記に変更
         //Post::create($request->all());
-        $file = $request->file('image_url');
+        /*
+        if ($file = $request->image_file) {
+            $fileName = time() . $file->getClientOriginalName();
+            $target_path = public_path('uploads/');
+            $file->move($target_path, $fileName);
+        } else {
+            $fileName = "";
+        }
+        */
 
         //s3に画像を保存。第一引数はs3のディレクトリ。第二引数は保存するファイル。
         //第三引数はファイルの公開設定。
         //$path = Storage::disk('s3')->putFile('/', $file, 'public');
+
+        //ローカルにファイル保存
+        //Storage::disk('local')->put('file.txt', 'Contents');
+        Storage::put('file.jpg', $request->image_file);
 
         //指定した物に変更して保存
         Post::create([
