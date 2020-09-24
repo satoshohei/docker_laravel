@@ -70,13 +70,36 @@ class PostController extends Controller
 
         //ローカルにファイル保存
         //Storage::disk('local')->put('file.txt', 'Contents');
-        Storage::put('file.jpg', $request->image_file);
+
+
+
+
+
+        /*
+        $image = new Image();
+        $uploadImg = $request->image_fileS;
+        if($uploadImg->isValid()) {
+            $filePath = $uploadImg->store('public');
+            $image->image = str_replace('public/', '', $filePath);
+        }
+        $image->save();
+        */
+
+
+        $uploadImg = $request->image_file;
+        if($uploadImg->isValid()) {
+            //保存
+            $imagePath = Storage::put('public/articles', $uploadImg);
+            //publicは不要なので削除した状態に変換する。
+            $imagePath = str_replace('public/', '', $imagePath);
+        }
+
 
         //指定した物に変更して保存
         Post::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image_url' => '',
+            'image_url' => $imagePath,
         ]);
 
         //成功のメッセージを出しつつ戻る。
