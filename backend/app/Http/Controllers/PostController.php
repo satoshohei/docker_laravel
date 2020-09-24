@@ -30,7 +30,6 @@ class PostController extends Controller
     public function create()
     {
 
-
         return view('posts.create');
     }
 
@@ -50,31 +49,6 @@ class PostController extends Controller
             'image_file' => 'required',
         ]);
 
-
-        //全て保存する。
-        //画像の保存により単純な保存でなくなったので下記に変更
-        //Post::create($request->all());
-        /*
-        if ($file = $request->image_file) {
-            $fileName = time() . $file->getClientOriginalName();
-            $target_path = public_path('uploads/');
-            $file->move($target_path, $fileName);
-        } else {
-            $fileName = "";
-        }
-        */
-
-        //s3に画像を保存。第一引数はs3のディレクトリ。第二引数は保存するファイル。
-        //第三引数はファイルの公開設定。
-        //$path = Storage::disk('s3')->putFile('/', $file, 'public');
-
-        //ローカルにファイル保存
-        //Storage::disk('local')->put('file.txt', 'Contents');
-
-
-
-
-
         /*
         $image = new Image();
         $uploadImg = $request->image_fileS;
@@ -87,15 +61,21 @@ class PostController extends Controller
 
 
         $uploadImg = $request->image_file;
-        if($uploadImg->isValid()) {
+        if ($uploadImg->isValid()) {
             //保存
-            $imagePath = Storage::put('public/articles', $uploadImg);
+            $imagePath = Storage::put('public/posts', $uploadImg);
+            //$imagePath  = Storage::disk('s3')->putFile('/', $file, 'public');
+
             //publicは不要なので削除した状態に変換する。
             $imagePath = str_replace('public/', '', $imagePath);
         }
 
 
+        //全て保存する。
+        //画像の保存により単純な保存でなくなったので変更
+        //Post::create($request->all());
         //指定した物に変更して保存
+
         Post::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -136,14 +116,41 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, int $id)
     {
         $request->validate([
             'title' => 'required',
             'description' => 'required',
         ]);
 
-        $post->update($request->all());
+
+        $uploadImg = $request->image_file;
+        if (!empty($uploadImg)) {
+            //保存
+            $imagePath = Storage::put('public/posts', $uploadImg);
+            //$imagePath  = Storage::disk('s3')->putFile('/', $file, 'public');
+
+            //publicは不要なので削除した状態に変換する。
+            $imagePath = str_replace('public/', '', $imagePath);
+
+            $update = [
+                'title' => $request->title,
+                'description' => $request->description,
+                'image_url' => $imagePath,
+            ];
+        } else {
+
+            $update = [
+                'title' => $request->title,
+                'description' => $request->description,
+            ];
+        }
+
+
+        //$post->update($request->all());
+
+        //updateを実行
+        Post::where('id', $id)->update($update);
 
         return redirect()->route('posts.index')
             ->with('success', 'Post updated successfully');

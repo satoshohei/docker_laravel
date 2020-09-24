@@ -32,7 +32,7 @@
 
                     @isset ($post->image_url)
                     <div>
-                        <img src="{{asset('storage/' . $post->image_url) }}">
+                        <img src="{{asset('storage/' . $post->image_url) }}" width="600">
                     </div>
                     @endisset
 
