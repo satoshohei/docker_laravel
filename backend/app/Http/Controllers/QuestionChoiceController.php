@@ -63,11 +63,11 @@ class QuestionChoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Question_Choice $question)
+    public function show(Question_Choice $question_choice)
     {
 
 
-        return view('question_choices.show', compact('question'));
+        return view('question_choices.show', compact('question_choice'));
     }
 
     /**
@@ -76,9 +76,9 @@ class QuestionChoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Question_Choice $question)
+    public function edit(Question_Choice $question_choice)
     {
-        return view('question_choices.edit', compact('question'));
+        return view('question_choices.edit', compact('question_choice'));
     }
 
     /**
@@ -91,19 +91,19 @@ class QuestionChoiceController extends Controller
     public function update(Request $request, int $id)
     {
         $request->validate([
-            'question' => 'required',
-            'point' => 'required',
+            'choice' => 'required',
+            'is_true_choice' => 'required',
         ]);
 
         $update = [
-            'question' => $request->question,
-            'point' => $request->point,
+            'choice' => $request->choice,
+            'is_true_choice' => $request->is_true_choice,
         ];
 
         //updateを実行
         Question_Choice::where('id', $id)->update($update);
 
-        return redirect()->route('question_choices.index')
+        return redirect()->route('questions.show',$request->question_id)
             ->with('success', 'QuestionChoice updated successfully');
     }
 
@@ -117,7 +117,7 @@ class QuestionChoiceController extends Controller
     {
         $QuestionChoice->delete();
 
-        return redirect()->route('question_choices.index')
+        return redirect()->route('questions.show',$QuestionChoice->question_id)
             ->with('success', 'QuestionChoice deleted successfully');
     }
 }

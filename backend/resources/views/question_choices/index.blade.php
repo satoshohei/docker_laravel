@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12 mt-1 mr-1">
                 <div class="float-right">
-                    <a class="btn btn-success" href="{{ route('question_choices.create') }}"> Create New Post</a>
+                    <a class="btn btn-success" href="{{ route('questions.index') }}"> Create New Post</a>
                 </div>
             </div>
         </div>

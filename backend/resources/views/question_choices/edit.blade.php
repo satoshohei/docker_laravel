@@ -3,13 +3,13 @@
 @section('content')
 <div class="card mt-5">
     <div class="card-header">
-        <h2>コラム編集画面</h2>
+        <h2>回答編集画面</h2>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-lg-12 mt-1 mr-1">
                 <div class="float-right">
-                    <a class="btn btn-primary" href="{{ route('question_choices.index') }}"> Back</a>
+                    <a class="btn btn-primary" href="{{ route('questions.show',$question_choice->question_id) }}"> Back</a>
                 </div>
             </div>
         </div>
@@ -33,22 +33,30 @@
                 </div>
                 @endif
 
-                <form action="{{ route('question_choices.update',$question_choice->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('question_choices.update',$question_choice->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Title:</strong>
-                                <input type="text" name="choice" value="{{ $question_choice->choice }}" class="form-control" placeholder="Choice">
+                                <strong>質問番号:</strong>
+                                <input type="text" name="question_id" value="{{ $question_choice->question_id }}" class="form-control" placeholder="question_id" readonly>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <strong>選択肢:</strong>
+                                <input type="text" name="choice" value="{{ $question_choice->choice }}" class="form-control" placeholder="choice">
                             </div>
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Title:</strong>
-                                <input type="text" name="true_choice_flg" value="{{ $question_choice->title }}" class="form-control" placeholder="TrueChoiceFlg">
+                                <strong>正解・不正解:</strong>
+                                <input type="text" name="is_true_choice" value="{{ $question_choice->is_true_choice }}" class="form-control" placeholder="is_true_choice">
                             </div>
                         </div>
 

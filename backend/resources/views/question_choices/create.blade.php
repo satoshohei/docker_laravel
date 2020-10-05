@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12 mt-1 mr-1">
                 <div class="float-right">
-                    <a class="btn btn-primary" href="{{ route('questions.index') }}"> 戻る</a>
+                    <a class="btn btn-primary" href="{{ route('questions.show',$question_id) }}"> 戻る</a>
                 </div>
             </div>
         </div>

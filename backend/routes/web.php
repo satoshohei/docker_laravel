@@ -51,11 +51,15 @@ Route::patch('/questions/{question}', [QuestionController::class, 'update'])->na
 
 Route::get('/question_choices/create/{question_id}', [QuestionChoiceController::class, 'create'])->name('question_choices.create');
 
-Route::delete('/question_choices/{question_choices}', [QuestionChoiceController::class, 'destroy'])->name('question_choices.destroy');
+Route::delete('/question_choices/{question_choice}', [QuestionChoiceController::class, 'destroy'])->name('question_choices.destroy');
 
-Route::get('/question_choices/{question_choices}/edit', [QuestionChoiceController::class, 'edit'])->name('question_choices.edit');
+Route::get('/question_choices/{question_choice}/edit', [QuestionChoiceController::class, 'edit'])->name('question_choices.edit');
 
 Route::post('/question_choices/{question_id}', [QuestionChoiceController::class, 'store'])->name('question_choices.store');
+
+Route::put('/question_choices/{question_choice}', [QuestionChoiceController::class, 'update'])->name('question_choices.update');
+
+Route::patch('/question_choices/{question_choice}', [QuestionChoiceController::class, 'update'])->name('question_choices.update');
 
 
 

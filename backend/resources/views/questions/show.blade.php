@@ -9,22 +9,12 @@
         <div class="row">
             <div class="col-lg-12 mt-1 mr-1">
                 <div class="float-right">
-                    <a class="btn btn-primary" href="{{ route('questions.index') }}"> Back</a>
+                    <a class="btn btn-primary" href="{{ route('questions.index') }}"> 戻る</a>
                 </div>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-lg-12">
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
-                @endif
-            </div>
-            <div class="col-lg-12">
-
-
-
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
@@ -80,12 +70,12 @@
                         <td>
                             <form action="{{ route('question_choices.destroy',$question_choice->id) }}" method="POST">
 
-                                <a class="btn btn-primary" href="{{ route('question_choices.edit',$question_choice->id) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ route('question_choices.edit',$question_choice->id) }}">編集</a>
 
                                 @csrf
                                 @method('DELETE')
 
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-danger">削除</button>
                             </form>
                         </td>
                     </tr>

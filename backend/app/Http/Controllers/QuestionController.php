@@ -64,11 +64,16 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         //回答を取得
-        //$question_choices = Question::find(1)->Question_Choices();
+        //$question_choices = Question_Choice::all();
 
-        //$question_choices = Question::find(1)->Question_Choices;
+        $question_choices = Question_Choice::where('question_id',  $question->id)->get();
 
-        $question_choices = Question_Choice::all();
+        //sqlを確認
+        /*
+        $sql = Question_Choice::where('question_id',  $question->id)->toSql();
+    
+        return var_dump($sql);
+        */
 
         //質問と回答を戻す
         return view('questions.show', compact('question','question_choices'));
