@@ -58,7 +58,7 @@ class PostController extends Controller
         }
         $image->save();
         */
-
+        
 
         $uploadImg = $request->image_file;
         if ($uploadImg->isValid()) {

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Hello FireStore</title>
+
+  <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>	
+  <script src="/js/firebase_config.js"></script>
+  <script>
+
+    // インスタンスを生成
+    var db = firebase.firestore();
+    db.settings({
+      timestampsInSnapshots: true
+    });
+
+    db.collection("users").add({
+      first: "Adasas",
+      last: "Lovelace",
+      born: 1815
+    })
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

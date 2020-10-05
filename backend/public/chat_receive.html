@@ -1,0 +1,61 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+  <div>
+    <div hidden>
+      <div>
+        <input type="text" id="name">
+      </div>
+      <div>
+        <textarea id="message" row="10"></textarea>
+        <button id="send">send</button>
+      </div>
+    </div hidden>
+    <div id="output"></div>
+  </div>
+
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-database.js"></script>
+  <script src="/js/firebase_config.js"></script>
+
+  <script>
+    var database = firebase.database();
+
+    let room = "chat_room";
+    const send = document.getElementById("send");
+    const name = document.getElementById("name");
+    const message = document.getElementById("message");
+    const output = document.getElementById("output");
+
+    send.addEventListener('click', function () {
+      database.ref(room).push({
+        name: name.value,
+        message: message.value
+      });
+      message.value = "";
+      name.value = "";
+    });
+
+    database.ref(room).on("child_added", function (data) {
+      const v = data.val();
+      const k = data.key;
+      let str = "";
+      str += '<div class="name">名前：' + v.name + '</div>';
+      str += '<div class="text">メッセージ：' + v.message + '</div>';
+      output.innerHTML += str;
+    });
+
+  </script>
+</body>
+
+
+</html>
